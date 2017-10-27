@@ -13,12 +13,17 @@
 #include "optionsmodel.h"
 #include "transactionview.h"
 #include "overviewpage.h"
+#include "communitypage.h"
 #include "askpassphrasedialog.h"
 #include "ui_interface.h"
-
+#include "menupage.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QAction>
+#include <QStatusBar>
+#include <QtWidgets>
+
+
 #if QT_VERSION < 0x050000
 #include <QDesktopServices>
 #else
@@ -26,6 +31,7 @@
 #endif
 #include <QFileDialog>
 #include <QPushButton>
+
 
 WalletView::WalletView(QWidget *parent, BitcoinGUI *_gui):
     QStackedWidget(parent),
@@ -40,6 +46,7 @@ WalletView::WalletView(QWidget *parent, BitcoinGUI *_gui):
     QVBoxLayout *vbox = new QVBoxLayout();
     QHBoxLayout *hbox_buttons = new QHBoxLayout();
     transactionView = new TransactionView(this);
+    vbox->setContentsMargins(0,0,0,0);
     vbox->addWidget(transactionView);
     QPushButton *exportButton = new QPushButton(tr("&Export"), this);
     exportButton->setToolTip(tr("Export the data in the current tab to a file"));
@@ -49,6 +56,15 @@ WalletView::WalletView(QWidget *parent, BitcoinGUI *_gui):
     hbox_buttons->addStretch();
     hbox_buttons->addWidget(exportButton);
     vbox->addLayout(hbox_buttons);
+
+
+
+
+
+
+
+
+transactionsPage->setContentsMargins(0,0,0,0);
     transactionsPage->setLayout(vbox);
 
     addressBookPage = new AddressBookPage(AddressBookPage::ForEditing, AddressBookPage::SendingTab);
@@ -59,14 +75,19 @@ WalletView::WalletView(QWidget *parent, BitcoinGUI *_gui):
 
     sendCoinsPage = new SendCoinsDialog(gui);
 
+    communityPage = new CommunityPage();
+
     signVerifyMessageDialog = new SignVerifyMessageDialog(gui);
 
+
+    addWidget(communityPage);
     addWidget(overviewPage);
     addWidget(transactionsPage);
     addWidget(addressBookPage);
     addWidget(receiveCoinsPage);
     addWidget(sendCoinsPage);
     addWidget(zerocoinPage);
+
 
     // Clicking on a transaction on the overview page simply sends you to transaction history page
     connect(overviewPage, SIGNAL(transactionClicked(QModelIndex)), this, SLOT(gotoHistoryPage()));
@@ -94,6 +115,15 @@ WalletView::~WalletView()
 void WalletView::setBitcoinGUI(BitcoinGUI *gui)
 {
     this->gui = gui;
+    //Set status bar into subscreens
+    gui->progressBar->setStyleSheet("QProgressBar { border: 0px solid grey; border-radius: 0px;background-color: #d8d8d8;} "
+                                    "QProgressBar::chunk { background: QLinearGradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #121548, stop: 1 #4a0e95); width: 5px; }");
+    gui->progressBar->setTextVisible(false);
+    gui->progressBar->setFixedSize(300,10);
+    gui->progressBarLabel->setStyleSheet("color: rgb(158,158,158)");
+    overviewPage->statusText->addWidget(gui->progressBarLabel);
+    overviewPage->statusBar->addWidget(gui->progressBar);
+    //overviewPage->statusBar->addWidget(gui->frameBlocks);
 }
 
 void WalletView::setClientModel(ClientModel *clientModel)
@@ -159,6 +189,11 @@ void WalletView::gotoOverviewPage()
     setCurrentWidget(overviewPage);
 }
 
+void WalletView::gotoCommunityPage()
+{
+    //gui->getOverviewAction()->setChecked(true);
+    setCurrentWidget(communityPage);
+}
 void WalletView::gotoHistoryPage()
 {
     gui->getHistoryAction()->setChecked(true);

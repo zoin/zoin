@@ -31,6 +31,8 @@ AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //ui->tableView->setStyleSheet("QHeaderView::section {font-size:24px;color:white;height:30px;background-color:QLinearGradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #121548, stop: 1 #4a0e95)}");
+
 #ifdef Q_OS_MAC // Icons on push buttons are very uncommon on Mac
     ui->newAddress->setIcon(QIcon());
     ui->copyAddress->setIcon(QIcon());
@@ -64,6 +66,7 @@ AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
         ui->signMessage->setVisible(false);
         ui->zerocoinMintButton->setVisible(false);
         ui->zerocoinSpendButton->setVisible(false);
+        ui->winTitle->setText("    Addresses");
         break;
     case ReceivingTab:
         ui->labelExplanation->setText(tr("These are your zoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you."));
@@ -71,6 +74,7 @@ AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
         ui->signMessage->setVisible(true);
         ui->zerocoinMintButton->setVisible(false);
         ui->zerocoinSpendButton->setVisible(false);
+        ui->winTitle->setText("    Receive");
         break;
     case ZerocoinTab:
         ui->labelExplanation->setText(tr("These are your private coins from mint zerocoin operation, You can perform spend zerocoin operation to redeem zoin back from Zerocoin."));
@@ -82,6 +86,7 @@ AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
         ui->zerocoinMintButton->setVisible(true);
         ui->zerocoinSpendButton->setVisible(true);
         ui->tableView->setToolTip("");
+        ui->winTitle->setText("    Zerocoin");
     }
 
     // Context menu actions
