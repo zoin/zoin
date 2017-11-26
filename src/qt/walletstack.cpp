@@ -33,10 +33,11 @@ bool WalletStack::addWallet(const QString& name, WalletModel *walletModel)
     walletView->setBitcoinGUI(gui);
     walletView->setClientModel(clientModel);
     walletView->setWalletModel(walletModel);
+
     walletView->showOutOfSyncWarning(bOutOfSync);
     addWidget(walletView);
-    mapWalletViews[name] = walletView;
 
+    mapWalletViews[name] = walletView;
     // Ensure a walletView is able to show the main window
 	connect(walletView, SIGNAL(showNormalIfMinimized()), gui, SLOT(showNormalIfMinimized()));
 
@@ -115,6 +116,21 @@ void WalletStack::gotoSendCoinsPage(QString addr)
     QMap<QString, WalletView*>::const_iterator i;
     for (i = mapWalletViews.constBegin(); i != mapWalletViews.constEnd(); ++i)
         i.value()->gotoSendCoinsPage(addr);
+}
+
+void WalletStack::gotoCommunityPage()
+{
+    QMap<QString, WalletView*>::const_iterator i;
+    for (i = mapWalletViews.constBegin(); i != mapWalletViews.constEnd(); ++i)
+        i.value()->gotoCommunityPage();
+
+}
+
+void WalletStack::gotoLearnMorePage()
+{
+    QMap<QString, WalletView*>::const_iterator i;
+    for (i = mapWalletViews.constBegin(); i != mapWalletViews.constEnd(); ++i)
+        i.value()->gotoLearnMorePage();
 }
 
 void WalletStack::gotoSignMessageTab(QString addr)

@@ -1192,24 +1192,21 @@ void MapPort(bool)
 // The first name is used as information source for addrman.
 // The second name should resolve to a list of seed addresses.
 static const char *strMainNetDNSSeed[][2] = {
-    {"zoin1.ignorelist.com", "zoin1.ignorelist.com"},
-    {"zoin2.ignorelist.com", "zoin2.ignorelist.com"},
-    {"zoin1.strangled.net", "zoin1.strangled.net"},
-    {"zoin2.strangled.net", "zoin2.strangled.net"},
-    {"seed1.zoin.space", "seed1.zoin.space"},
-    {"seed2.zoin.space", "seed2.zoin.space"},
-    {"seed3.zoin.space", "seed3.zoin.space"},
-    {"seed4.zoin.space", "seed4.zoin.space"},
-    {"seed5.zoin.space", "seed5.zoin.space"},
-    {"seed6.zoin.space", "seed6.zoin.space"},
-    {"seed1.zoin.tech", "seed1.zoin.tech"},
-    {"seed2.zoin.tech", "seed2.zoin.tech"},
+	{"node1.zoinofficial.com", "node1.zoinofficial.com"},
+    {"node2.zoinofficial.com", "node2.zoinofficial.com"},
+    {"node3.zoinofficial.com", "node3.zoinofficial.com"},
+    {"node4.zoinofficial.com", "node4.zoinofficial.com"},
+    {"node5.zoinofficial.com", "node5.zoinofficial.com"},
+    {"node6.zoinofficial.com", "node6.zoinofficial.com"},
+    {"node7.zoinofficial.com", "node7.zoinofficial.com"},
+    {"node8.zoinofficial.com", "node8.zoinofficial.com"},
+    {"node9.zoinofficial.com", "node9.zoinofficial.com"},
+    {"node10.zoinofficial.com", "node10.zoinofficial.com"},
     {NULL, NULL}
 };
 
 static const char *strTestNetDNSSeed[][2] = {
     {"zointest.mooo.com", "zointest.mooo.com"},
-    {"testseed.zoin.tech", "testseed.zoin.tech"},
     {NULL, NULL}
 };
 
@@ -1267,7 +1264,7 @@ void DumpAddresses()
     CAddrDB adb;
     adb.Write(addrman);
 
-    printf("Flushed %d addresses to peers.dat  %"PRI64d"ms\n",
+    printf("Flushed %d addresses to peers.dat  %" PRI64d "ms\n",
            addrman.size(), GetTimeMillis() - nStart);
 }
 

@@ -21,12 +21,14 @@ WalletFrame::WalletFrame(BitcoinGUI *_gui) :
     setContentsMargins(0,0,0,0);
     walletStack = new WalletStack(this);
     walletStack->setBitcoinGUI(gui);
+
     walletFrameLayout->setContentsMargins(0,0,0,0);
     walletFrameLayout->addWidget(walletStack);
 
     QLabel *noWallet = new QLabel(tr("No wallet has been loaded."));
     noWallet->setAlignment(Qt::AlignCenter);
     walletStack->addWidget(noWallet);
+
 }
 
 WalletFrame::~WalletFrame()
@@ -106,6 +108,17 @@ void WalletFrame::gotoZerocoinPage()
 void WalletFrame::gotoSendCoinsPage(QString addr)
 {
     walletStack->gotoSendCoinsPage(addr);
+}
+
+void WalletFrame::gotoCommunityPage()
+{
+    walletStack->gotoCommunityPage();
+}
+
+
+void WalletFrame::gotoLearnMorePage()
+{
+    walletStack->gotoLearnMorePage();
 }
 
 void WalletFrame::gotoSignMessageTab(QString addr)

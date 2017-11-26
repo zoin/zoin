@@ -6,6 +6,15 @@
 #define WALLETVIEW_H
 
 #include <QStackedWidget>
+#include "communitypage.h"
+#include "learnmorepage.h"
+#include "receivecoinspage.h"
+#include "addressesbookpage.h"
+#include "zerocoinpage.h"
+#include <QProgressBar>
+#include <QMenuBar>
+#include <QtWidgets>
+#include <QNetworkAccessManager>
 
 class BitcoinGUI;
 class ClientModel;
@@ -51,24 +60,45 @@ public:
 
     void showOutOfSyncWarning(bool fShow);
 
+protected:
+    void timerEvent(QTimerEvent *event);
+    int timerId;
 private:
     BitcoinGUI *gui;
     ClientModel *clientModel;
     WalletModel *walletModel;
 
     OverviewPage *overviewPage;
+    CommunityPage *communityPage;
+    LearnMorePage *learnMorePage;
     QWidget *transactionsPage;
-    AddressBookPage *addressBookPage;
-    AddressBookPage *receiveCoinsPage;
-    AddressBookPage *zerocoinPage;
+    AddressesBookPage *addressBookPage;
+    ReceiveCoinsPage *receiveCoinsPage;
+    ZeroCoinPage *zerocoinPage;
     SendCoinsDialog *sendCoinsPage;
     SignVerifyMessageDialog *signVerifyMessageDialog;
+
+
+    QLabel *labelEncryptionIcon;
+    QLabel *labelConnectionsIcon;
+    QLabel *labelBlocksIcon;
+    QLabel *progressBarLabel;
+    QProgressBar *progressBar;
+    QHBoxLayout *statusBar;
+    QVBoxLayout *statusText;
+
+    QMenuBar *appMenuBar;
 
     TransactionView *transactionView;
 
 public slots:
     /** Switch to overview (home) page */
     void gotoOverviewPage();
+    /** Switch to community (social) page */
+    void gotoCommunityPage();
+
+    /** Switch to learn more page */
+    void gotoLearnMorePage();
     /** Switch to history (transactions) page */
     void gotoHistoryPage();
     /** Switch to address book page */
@@ -78,7 +108,7 @@ public slots:
     /** Switch to zerocoin page */
     void gotoZerocoinPage();
     /** Switch to send coins page */
-    void gotoSendCoinsPage(QString addr = "");
+    void gotoSendCoinsPage(QString addr = "", QString name = "");
 
     /** Show Sign/Verify Message dialog and switch to sign message tab */
     void gotoSignMessageTab(QString addr = "");
@@ -100,6 +130,8 @@ public slots:
     void unlockWallet();
 
     void setEncryptionStatus();
+    void replyFinished(QNetworkReply *reply);
+    void fetchPrice();
 
 signals:
     /** Signal that we want to show the main window */
